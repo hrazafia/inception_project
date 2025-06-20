@@ -10,7 +10,7 @@ VOLUME ["/var/lib/mysql"]
 COPY ./conf/my.cnf /etc/mysql/my.cnf
 
 COPY ./tools/entrypoint.sh /usr/local/bin/entrypoint.sh
-RUN chmod +x /usr/local/bin/docker-entrypoint.sh
+RUN chmod +x /usr/local/bin/entrypoint.sh
 
 EXPOSE 3306
 
