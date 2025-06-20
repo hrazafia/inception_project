@@ -2,13 +2,14 @@ services:
   db:
     build:
       context: .
+    image: db:1.0.0
     container_name: mariadb
     restart: always
     ports:
       - "3306:3306"
+    env_file:
+      - .env
     environment:
-      MYSQL_DATABASE: "${MYSQL_DATABASE:-db}"
-      MYSQL_USER: "${MYSQL_USER:-liva}"
       MYSQL_ROOT_PASSWORD_FILE: /run/secrets/db_root_password
       MYSQL_PASSWORD_FILE: /run/secrets/db_password
     volumes:
