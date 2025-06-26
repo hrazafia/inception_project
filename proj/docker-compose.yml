@@ -1,0 +1,12 @@
+services:
+  web:
+    build: .
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - /home/hrazafia/data/www/static-demo:/usr/share/nginx/html:ro
+      - /home/hrazafia/data/certs/hrazafia.42.fr:/etc/ssl/hrazafia.42.fr
+
+volumes:
+  certs:
