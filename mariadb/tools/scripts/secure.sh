@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 set -e
 
-USER_PASSWORD="$(<"$MYSQL_PASSWORD_FILE")"
 ROOT_PASSWORD="$(<"$MYSQL_ROOT_PASSWORD_FILE")"
 
 mysql -uroot -p"${ROOT_PASSWORD}" <<EOSQL
