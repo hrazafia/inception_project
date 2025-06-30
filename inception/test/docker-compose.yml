@@ -1,0 +1,44 @@
+services:
+  db:
+    build:
+      context: .
+    image: db:1.0.0
+    container_name: mariadb
+    restart: always
+    ports:
+      - "3306:3306"
+    env_file:
+      - .env
+    environment:
+      MYSQL_ROOT_PASSWORD_FILE: /run/secrets/db_root_password
+      MYSQL_PASSWORD_FILE: /run/secrets/db_password
+    volumes:
+      - mariadb_data:/var/lib/mysql
+    networks:
+      - app_net
+    secrets:
+      - db_root_password
+      - db_password
+
+  tester:
+    build:
+      context: ./tester
+    image: tester:1.0.0
+    container_name: tester
+    depends_on:
+      - db
+    networks:
+      - app_net
+
+volumes:
+  mariadb_data:
+
+secrets:
+  db_root_password:
+    file: ./secrets/db_root_password.txt
+  db_password:
+    file: ./secrets/db_password.txt
+
+networks:
+  app_net:
+    driver: bridge
