@@ -14,10 +14,10 @@ mysqld --user=mysql --skip-networking --socket=/var/run/mysqld/mysqld.sock &
 child_pid="$!"
 
 for i in {30..0}; do
-  if mysqladmin ping --silent --socket=/var/run/mysqld/mysqld.sock; then
-    break
-  fi
-  sleep 1
+	if mysqladmin ping --silent --socket=/var/run/mysqld/mysqld.sock; then
+		break
+	fi
+	sleep 1
 done
 
 if [ ! -f /var/lib/mysql/.initialized ]; then
