@@ -10,7 +10,7 @@ if [ ! -d /var/lib/mysql/mysql ]; then
 	mysqld --initialize-insecure --user=mysql --datadir=/var/lib/mysql
 fi
 
-mysqld --user=mysql --skip-networking &
+mysqld --user=mysql --skip-networking --socket=/var/run/mysqld/mysqld.sock &
 child_pid="$!"
 
 for i in {30..0}; do
