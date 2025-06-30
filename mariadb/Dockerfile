@@ -12,13 +12,12 @@ VOLUME ["/var/lib/mysql"]
 COPY ./conf/my.cnf /etc/mysql/my.cnf
 
 COPY ./tools/entrypoint.sh /usr/local/bin/entrypoint.sh
-RUN chmod +x 
 
 COPY ./tools/scripts/init.sh /usr/local/bin/scripts/init.sh
 COPY ./tools/scripts/secure.sh /usr/local/bin/scripts/secure.sh
 
 RUN chmod +x /usr/local/bin/entrypoint.sh \
-  /usr/local/bin/scripts/init.sh /usr/local/bin/srcipts/secure.sh
+  /usr/local/bin/scripts/init.sh /usr/local/bin/scripts/secure.sh
 
 EXPOSE 3306
 
