@@ -20,6 +20,7 @@ done
 if [ ! -f /var/lib/mysql/.initialized ]; then
   /usr/local/bin/scripts/init.sh
   /usr/local/bin/scripts/secure.sh
+
   touch /var/lib/mysql/.initialized
 else
   echo "[INFO] Data base is already initialized"
