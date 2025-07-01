@@ -12,5 +12,5 @@ services:
         source: ./html
         target: /var/www/html
       - type: bind
-        source: /home/hrazafia/data/ssl/hrazafia.42.fr
+        source: ./ssl/hrazafia.42.fr
         target: /etc/ssl/hrazafia.42.fr
