@@ -11,3 +11,6 @@ services:
       - type: bind
         source: ./html
         target: /var/www/html
+      - type: bind
+        source: ./ssl/hrazafia.42.fr
+        target: /etc/nginx/ssl/hrazafia.42.fr
