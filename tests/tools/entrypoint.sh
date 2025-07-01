@@ -25,7 +25,7 @@ if [ ! -f /var/lib/mysql/.initialized ]; then
 
   touch /var/lib/mysql/.initialized
 else
-  echo "[INFO] Data base is already initialized"
+  echo "[$(date +'%Y-%m-%dT%H:%M:%S%z')] [INFO] Data base is already initialized"
 fi
 
 kill "$child_pid"
