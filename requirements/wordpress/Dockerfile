@@ -1,0 +1,14 @@
+FROM debian:11
+
+RUN apt-get update && apt-get install -y php7.4 php7.4-fpm \
+  php7.4-mysql php7.4-xml php7.4-gd php7.4-curl curl
+
+COPY ./conf/php.ini /etc/php/7.4/fpm/php.ini
+COPY ./conf/www.conf /etc/php/7.4/fpm/pool.d/www.conf
+
+RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar \
+    && chmod +x wp-cli.phar && mv wp-cli.phar /usr/local/bin/wp
+
+EXPOSE 9000
+
+CMD ["php-fpm7.4", "-F"]
