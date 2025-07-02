@@ -2,7 +2,7 @@ services:
   nginx:
     build:
       context: .
-    image: nginx:1.0
+    image: nginx:hrazafia
     container_name: nginx
     restart: always
     ports:
