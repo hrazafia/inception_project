@@ -13,7 +13,6 @@ services:
     volumes:
       - wordpress_data:/var/www/hrazafia.42.fr
       - ssl_data:/etc/ssl/hrazafia.42.fr
-      - nginx_logs:/var/log/nginx
     networks:
       - test_net
 
@@ -54,12 +53,6 @@ volumes:
     driver_opts:
       type: none
       device: /home/hrazafia/data/ssl/hrazafia.42.fr
-      o: bind
-  nginx_logs:
-    driver: local
-    driver_opts:
-      type: none
-      device: /home/hrazafia/data/logs
       o: bind
 
 secrets:
