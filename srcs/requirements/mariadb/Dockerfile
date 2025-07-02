@@ -24,7 +24,7 @@ RUN chmod +x /usr/local/bin/entrypoint.sh \
 EXPOSE 3306
 
 HEALTHCHECK --interval=15s --timeout=5s --start-period=30s --retries=3 \
-  CMD mysqladmin ping --silent --socket=/var/run/mysqld/mysqld.sock
+  CMD bash -c "mysqladmin ping --silent -uroot -p\$(</run/secrets/db_root_passwd) || exit 1"
 
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
 CMD ["mysqld"]
