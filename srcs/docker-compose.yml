@@ -1,28 +1,66 @@
 services:
-  db:
+  nginx:
     build:
-      context: .
-    image: db:1.0.0
+      context: ./requirements/nginx
+    image: nginx:hrazafia
+    container_name: nginx
+    restart: always
+    depends_on:
+      mariadb:
+        condition: service_healthy
+    ports:
+      - "443:443"
+    volumes:
+      - wordpress_data:/var/www/html
+      - ssl_data:/etc/ssl/hrazafia.42.fr
+    networks:
+      - test_net
+
+  mariadb:
+    build:
+      context: ./requirements/mariadb
+    image: mariadb:hrazafia
     container_name: mariadb
     restart: always
-    ports:
-      - "3306:3306"
     env_file:
       - .env
     environment:
-      MYSQL_ROOT_PASSWORD_FILE: /run/secrets/db_root_password
-      MYSQL_PASSWORD_FILE: /run/secrets/db_password
+      MYSQL_PASSWORD_FILE: /run/secrets/db_passwd
+      MYSQL_ROOT_PASSWORD_FILE: /run/secrets/db_root_passwd
     volumes:
       - mariadb_data:/var/lib/mysql
+    networks:
+      - test_net
     secrets:
-      - db_root_password
-      - db_password
+      - db_passwd
+      - db_root_passwd
 
 volumes:
   mariadb_data:
+    driver: local
+    driver_opts:
+      type: none
+      device: /home/hrazafia/data/mariadb
+      o: bind
+  wordpress_data:
+    driver: local
+    driver_opts:
+      type: none
+      device: /home/hrazafia/data/www/html
+      o: bind
+  ssl_data:
+    driver: local
+    driver_opts:
+      type: none
+      device: /home/hrazafia/data/ssl/hrazafia.42.fr
+      o: bind
 
 secrets:
-  db_root_password:
-    file: ./secrets/db_root_password.txt
-  db_password:
-    file: ./secrets/db_password.txt
+  db_passwd:
+    file: ./secrets/db_passwd.txt
+  db_root_passwd:
+    file: ./secrets/db_root_passwd.txt
+
+networks:
+  test_net:
+    driver: bridge
