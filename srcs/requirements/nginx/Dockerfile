@@ -10,7 +10,7 @@ RUN apt-get update && apt-get -y install nginx \
 RUN rm /etc/nginx/sites-enabled/default \
  && rm /etc/nginx/sites-available/default
 
-VOLUME ["/var/www/html", "/etc/ssl/hrazafia.42.fr"]
+VOLUME ["/var/www/hrazafia.42.fr", "/etc/ssl/hrazafia.42.fr"]
 
 COPY ./conf/default.conf /etc/nginx/conf.d/default.conf
 

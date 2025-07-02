@@ -11,7 +11,7 @@ services:
     ports:
       - "443:443"
     volumes:
-      - wordpress_data:/var/www/html
+      - wordpress_data:/var/www/hrazafia.42.fr
       - ssl_data:/etc/ssl/hrazafia.42.fr
     networks:
       - test_net
@@ -46,7 +46,7 @@ volumes:
     driver: local
     driver_opts:
       type: none
-      device: /home/hrazafia/data/www/html
+      device: /home/hrazafia/data/www/hrazafia.42.fr
       o: bind
   ssl_data:
     driver: local
@@ -57,9 +57,9 @@ volumes:
 
 secrets:
   db_passwd:
-    file: ./secrets/db_passwd.txt
+    file: ../secrets/db_passwd.txt
   db_root_passwd:
-    file: ./secrets/db_root_passwd.txt
+    file: ../secrets/db_root_passwd.txt
 
 networks:
   test_net:
