@@ -4,22 +4,22 @@ set -e
 if [ ! -f /var/www/html/wp-config.php ]; then
   wp core download --allow-root
 
-  wp config create --dbname="$WORDPRESS_DB_NAME" \
-                   --dbuser="$WORDPRESS_DB_USER" \
-                   --dbpass="$WORDPRESS_DB_PASSWORD" \
-                   --dbhost="$WORDPRESS_DB_HOST" \
+  wp config create --dbname="hrazafiadb" \
+                   --dbuser="hrazafia" \
+                   --dbpass="user1234" \
+                   --dbhost="mariadb" \
                    --allow-root
 
-  wp core install --url="$WORDPRESS_URL" \
-                  --title="$WORDPRESS_TITLE" \
-                  --admin_user="$WORDPRESS_ADMIN_USER" \
-                  --admin_password="$WORDPRESS_ADMIN_PASSWORD" \
-                  --admin_email="$WORDPRESS_ADMIN_EMAIL" \
+  wp core install --url="hrazafia.42.fr" \
+                  --title="Inception" \
+                  --admin_user="superuser" \
+                  --admin_password="user1234" \
+                  --admin_email="superuser@gmail.com" \
                   --skip-email \
                   --allow-root
 
-  wp user create 		${WP_USER} ${WP_USER_EMAIL} \
-						--user_pass=${WP_USER_PASSWORD} \
+  wp user create 		simpleuser simpleuser@gmail.com \
+						--user_pass=user1234 \
 						--role=author \
 						--allow-root
 fi

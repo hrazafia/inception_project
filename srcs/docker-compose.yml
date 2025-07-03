@@ -35,6 +35,15 @@ services:
     secrets:
       - db_passwd
       - db_root_passwd
+      
+  wordpress:
+    build:
+      context: ./requirements/wordpress
+    image: wordpress:hrazafia
+    container_name: wordpress
+    restart: always
+    volumes:
+      - wordpress_data:/var/www/hrazafia.42.fr
 
 volumes:
   mariadb_data:
