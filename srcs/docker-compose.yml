@@ -44,6 +44,11 @@ services:
     restart: always
     volumes:
       - wordpress_data:/var/www/hrazafia.42.fr
+    depends_on:
+      mariadb:
+        condition: service_healthy
+    networks:
+      - test_net
 
 volumes:
   mariadb_data:

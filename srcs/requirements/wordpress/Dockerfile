@@ -6,6 +6,9 @@ RUN apt-get update && apt-get install -y php7.4 php7.4-fpm \
 COPY ./conf/php.ini /etc/php/7.4/fpm/php.ini
 COPY ./conf/www.conf /etc/php/7.4/fpm/pool.d/www.conf
 
+RUN mkdir -p /run/php \
+    && chown www-data:www-data /run/php
+
 COPY ./tools/entrypoint.sh /usr/local/bin/entrypoint.sh
 RUN chmod +x /usr/local/bin/entrypoint.sh
 

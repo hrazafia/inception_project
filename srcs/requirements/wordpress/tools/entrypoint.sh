@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-if [ ! -f /var/www/html/wp-config.php ]; then
+if [ ! -f /var/www/hrazafia.42.fr/wp-config.php ]; then
   wp core download --allow-root
 
   wp config create --dbname="hrazafiadb" \
