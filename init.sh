@@ -1,6 +1,7 @@
 #!/bin/bash
 
 mkdir -p secrets
+mkdir -p ./srcs/
 
 echo "admin123" > ./secrets/admin_passwd.txt
 echo "pass1234" > ./secrets/user_passwd.txt
