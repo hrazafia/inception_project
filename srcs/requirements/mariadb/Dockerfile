@@ -26,4 +26,4 @@ HEALTHCHECK --interval=15s --timeout=5s --start-period=30s --retries=5 \
   CMD bash -c "mysqladmin ping --silent -uroot -p\$(</run/secrets/db_root_passwd) || exit 1"
 
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
-CMD ["mysqld"]
+CMD ["mysqld", "--user=mysql"]
