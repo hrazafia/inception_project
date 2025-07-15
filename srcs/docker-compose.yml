@@ -5,17 +5,17 @@ services:
     image: nginx:hrazafia
     container_name: nginx
     restart: always
+    ports:
+      - "443:443"
     depends_on:
       mariadb:
         condition: service_healthy
-    ports:
-      - "443:443"
+      wordpress:
+        condition: service_healthy
     volumes:
       - wordpress_data:/var/www/hrazafia.42.fr
-      - ssl_data:/etc/ssl/hrazafia.42.fr
-      - nginx_logs:/var/log/nginx
     networks:
-      - test_net
+      - frontend_network
 
   mariadb:
     build:
@@ -31,7 +31,7 @@ services:
     volumes:
       - mariadb_data:/var/lib/mysql
     networks:
-      - test_net
+      - backend_network
     secrets:
       - db_passwd
       - db_root_passwd
@@ -42,13 +42,26 @@ services:
     image: wordpress:hrazafia
     container_name: wordpress
     restart: always
+    env_file:
+      - .env
+    environment:
+      MYSQL_PASSWORD_FILE: /run/secrets/db_passwd
+      MYSQL_ROOT_PASSWORD_FILE: /run/secrets/db_root_passwd
+      USER_PASSWORD_FILE: /run/secrets/user_passwd
+      ADMIN_PASSWORD_FILE: /run/secrets/admin_passwd
     volumes:
       - wordpress_data:/var/www/hrazafia.42.fr
     depends_on:
       mariadb:
         condition: service_healthy
     networks:
-      - test_net
+      - frontend_network
+      - backend_network
+    secrets:
+      - db_passwd
+      - db_root_passwd
+      - user_passwd
+      - admin_passwd
 
 volumes:
   mariadb_data:
@@ -63,25 +76,19 @@ volumes:
       type: none
       device: /home/hrazafia/data/www/hrazafia.42.fr
       o: bind
-  ssl_data:
-    driver: local
-    driver_opts:
-      type: none
-      device: /home/hrazafia/data/ssl/hrazafia.42.fr
-      o: bind
-  nginx_logs:
-    driver: local
-    driver_opts:
-      type: none
-      device: /home/hrazafia/data/logs
-      o: bind
 
 secrets:
   db_passwd:
     file: ../secrets/db_passwd.txt
   db_root_passwd:
     file: ../secrets/db_root_passwd.txt
+  user_passwd:
+    file: ../secrets/user_passwd.txt
+  admin_passwd:
+    file: ../secrets/admin_passwd.txt
 
 networks:
-  test_net:
+  frontend_network:
+    driver: bridge
+  backend_network:
     driver: bridge

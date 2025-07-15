@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 set -e
 
 USER_PASSWORD="$(<"$MYSQL_PASSWORD_FILE")"

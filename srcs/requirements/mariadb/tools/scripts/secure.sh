@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 set -e
 
 ROOT_PASSWORD="$(<"$MYSQL_ROOT_PASSWORD_FILE")"

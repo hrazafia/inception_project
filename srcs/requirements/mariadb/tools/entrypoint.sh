@@ -1,34 +1,30 @@
-#!/usr/bin/env bash
+#!/bin/bash
 set -e
 
 MYSQL_SOCKET=/var/run/mysqld/mysqld.sock
 
-trap "kill $child_pid; wait $child_pid; exit 0" TERM INT
-
-if [ ! -d /var/lib/mysql/mysql ]; then
-  mysqld --initialize-insecure --user=mysql --datadir=/var/lib/mysql
-fi
-
-mysqld --user=mysql --skip-networking --socket=$MYSQL_SOCKET &
-child_pid="$!"
-
-for i in {30..0}; do
-  if mysqladmin ping --silent --socket=$MYSQL_SOCKET; then
-    break
-  fi
-  sleep 1
-done
-
 if [ ! -f /var/lib/mysql/.initialized ]; then
+  mysqld --user=mysql --skip-networking --socket=$MYSQL_SOCKET &
+  child_pid="$!"
+
+  trap 'kill "$child_pid"; wait "$child_pid"; exit 1' ERR TERM INT
+
+  for i in {0..30}; do
+    if mysqladmin ping --silent --socket=$MYSQL_SOCKET; then
+      break
+    fi
+    sleep 1
+  done
+
   /usr/local/bin/scripts/init.sh
   /usr/local/bin/scripts/secure.sh
 
   touch /var/lib/mysql/.initialized
+
+  kill "$child_pid"
+  wait "$child_pid"
 else
   echo "$(date '+%F %k:%M:%S') $$ [INFO] Data base is already initialized"
 fi
-
-kill "$child_pid"
-wait "$child_pid"
 
 exec "$@"
